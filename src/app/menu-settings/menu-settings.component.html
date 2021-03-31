@@ -1,0 +1,86 @@
+<mat-tree class="list" [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node class="box" *matTreeNodeDef="let node"
+                   matTreeNodeToggle
+                   matTreeNodePadding>
+      <button mat-icon-button disabled></button>
+      <span class="checklist-leaf-node"
+                    [ngClass]="{'drop-above': dragNodeExpandOverArea === 'above' && dragNodeExpandOverNode === node,
+                                'drop-below': dragNodeExpandOverArea === 'below' && dragNodeExpandOverNode === node,
+                                'drop-center': dragNodeExpandOverArea === 'center' && dragNodeExpandOverNode === node}"
+                    
+                    draggable="true"
+                    (dragstart)="handleDragStart($event, node);"
+                    (dragover)="handleDragOver($event, node);"
+                    (drop)="handleDrop($event, node);"
+                    (dragend)="handleDragEnd($event);">{{node.name}}</span>
+
+
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label=" menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="openDialog(node, true)">
+                          <mat-icon>add</mat-icon>
+                          <span>Add</span>
+                        </button>
+                        <button mat-menu-item (click)="openDialog(node)">
+                          <mat-icon>edit</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteMenuItem(node)">
+                          <mat-icon>delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
+
+
+    </mat-tree-node>
+  
+    <!-- <mat-tree-node class="box" *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+      <button mat-icon-button disabled></button>
+      <mat-form-field>
+        <input matInput #itemValue placeholder="New item...">
+      </mat-form-field>
+      <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+    </mat-tree-node> -->
+  
+    <mat-tree-node class="box" *matTreeNodeDef="let node; when: hasChild"
+                   matTreeNodePadding>
+      <button mat-icon-button matTreeNodeToggle
+              [attr.aria-label]="'toggle ' + node.name">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        </mat-icon>
+      </button>
+      <span [ngClass]="{'drop-above': dragNodeExpandOverArea === 'above' && dragNodeExpandOverNode === node,
+                                'drop-below': dragNodeExpandOverArea === 'below' && dragNodeExpandOverNode === node,
+                                'drop-center': dragNodeExpandOverArea === 'center' && dragNodeExpandOverNode === node}"
+                    draggable="true"
+                    (dragstart)="handleDragStart($event, node);"
+                    (dragover)="handleDragOver($event, node);"
+                    (drop)="handleDrop($event, node);"
+                    (dragend)="handleDragEnd($event);">{{node.name}}</span>
+      
+                    
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label=" menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="openDialog(node, true)">
+                          <mat-icon>add</mat-icon>
+                          <span>Add</span>
+                        </button>
+                        <button mat-menu-item (click)="openDialog(node)">
+                          <mat-icon>edit</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteMenuItem(node)">
+                          <mat-icon>delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
+
+    </mat-tree-node>
+  </mat-tree>
+<button mat-button (click)="openDialog(null, true)">Add new Item</button>
+  <span #emptyItem></span>

@@ -1,0 +1,16 @@
+<span *ngFor="let item of menuItems">
+    <!-- Handle branch node buttons here -->
+    <span *ngIf="item.children && item.children.length > 0">
+      <button mat-button [matMenuTriggerFor]="menu.childMenu">
+        {{item.name}}
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <app-main-menu-item #menu [items]="item.children"></app-main-menu-item>
+    </span>
+    <!-- Leaf node buttons here -->
+    <span *ngIf="!item.children || item.children.length === 0">
+      <button mat-button [routerLink]="item.link">
+        {{item.name}}
+      </button>
+    </span>
+  </span>
