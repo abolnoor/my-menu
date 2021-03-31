@@ -359,7 +359,7 @@ export class MenuSettingsComponent {
     this.dragNodeExpandOverTime = 0;
   }
 
-deleteMenuItem(node: MenuItemNode){
+deleteMenuItem(node: any){
   this.database.deleteItem(this.flatNodeMap.get(node)!);
 }
 
